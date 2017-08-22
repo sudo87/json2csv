@@ -59,7 +59,6 @@ class Json2Csv(object):
             data = data[self.collection]
 
         for d in data:
-            logging.info(d)
             self.rows.append(self.process_row(d))
 
     def process_row(self, item):
@@ -100,7 +99,8 @@ class Json2Csv(object):
         else:
             out = self.rows
         with open(filename, 'wb+') as f:
-            writer = csv.DictWriter(f, self.key_map.keys())
+            csv.register_dialect('vwo', delimiter='`');
+            writer = csv.DictWriter(f, self.key_map.keys(),dialect='vwo')
             writer.writeheader()
             writer.writerows(out)
 
